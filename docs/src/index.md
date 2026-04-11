@@ -1,6 +1,6 @@
-# CTAppTemplate
+# CTMembraneFiltration
 
-Documentation for [CTAppTemplate](https://github.com/control-toolbox/CTAppTemplate.jl).
+Documentation for [CTMembraneFiltration](https://github.com/remydutto/CTMembraneFiltration.jl).
 
 ## Reproducibility
 

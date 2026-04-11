@@ -1,4 +1,4 @@
 # test_default
 function test_default()
-    @test CTAppTemplate.greet() isa Nothing
+    @test CTMembraneFiltration.greet() isa Nothing
 end

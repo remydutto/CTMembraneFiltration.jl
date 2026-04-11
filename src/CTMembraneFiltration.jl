@@ -1,4 +1,4 @@
-module CTAppTemplate
+module CTMembraneFiltration
 
 greet() = print("Hello World!")
 
