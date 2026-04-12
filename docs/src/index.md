@@ -40,24 +40,41 @@ where ``\omega~(\mathrm m^{-1})`` models the detachment resistance of fouling.
 
 # Problem statement
 
-Let us assume that the flux $J$ is constant during filtration (``J = J_f > 0``) and backwash (``J = -J_b < 0``) phases. The goal is to minimize the total power used to produce a targeted permeate volume ``v_f`` at a free final time ``t_f``. Using equations given previously, this problem can be written as (OCP) when the dynamics of cost and states are given in filtration and backwash modes by
+Let us assume that the flux $J$ is constant during filtration (``J = J_f > 0``) and backwash (``J = -J_b < 0``) phases. The goal is to minimize the total power used to produce a targeted permeate volume ``v_f`` at a free final time ``t_f``. Using equations given previously, the dynamics of the cost and the state variables are given in filtration and backwash modes by
 ```math
-u = +1 : \left\{ \begin{array}{rl}
-\dot e & \hspace{-0.75em}= l_p(R_c) = \frac{J_f^2 \mu}{\eta} (R_0 + R_c),
+\mathrm{Filtration} : \left\{ \begin{array}{rl}
+\dot e & \frac{J_f^2 \mu}{\eta} (R_0 + R_c),
 \\[0.5em]
-\dot R_c & \hspace{-0.75em}= f_p(R_c) = J_f \beta C, 
+\dot R_c & = J_f \beta C, 
 \\[0.5em]
-\dot v & \hspace{-0.75em}= g_p(R_c) = J_f A, 
+\dot v & = J_f A, 
 \end{array} \right. 
 \quad \text{and} \quad 
-u = -1 : \left\{ \begin{array}{rl}
-\dot e & \hspace{-0.75em}= l_r(R_c) = \frac{J_b^2 \mu}{\eta} (R_0 + R_c), 
+\mathrm{Backwash} : \left\{ \begin{array}{rl}
+\dot e & = \frac{J_b^2 \mu}{\eta} (R_0 + R_c), 
 \\[0.5em]
-\dot R_c & \hspace{-0.75em}= f_r(R_c) = -J_b \omega R_c,
+\dot R_c & = -J_b \omega R_c,
 \\[0.5em]
-    \dot v & \hspace{-0.75em}= g_r(R_c) = - J_b A.
+\dot v & = - J_b A.
 \end{array} \right.  
 ```
+
+Let ``u \in [-1, 1]`` be the control variable, where `` u = +1`` denotes filtration mode and ``u = -1`` denotes backwash mode, we consider the following optimal control problem
+
+```math
+\text{(OCP)} \quad
+\left\{ 
+\begin {array}{ll}
+\displaystyle \min_{x,y,t_f} \int_{t_0}^{t_f} \frac{\mu(R_0 + R_c)}{2\eta}(J_f^2 + J_b^2 + u(t)(J_f^2 - J_b^2)) \, \mathrm dt, 
+& t \in [t_0, t_f] \ \mathrm{a.e.}, \\[1em]
+\displaystyle \mathrm{s.t.} \ \dot x(t) = \frac{1 + u(t)}{2} f_p(x(t)) + \frac{1-u(t)}{2} f_r(x(t)), & t \in [t_0, t_f] \ \mathrm{a.e.}, \\[1em] 
+\displaystyle \phantom{\mathrm{s.t.} \ } \dot y(t) = \frac{1 + u(t)}{2} g_p(x(t)) + \frac{1-u(t)}{2} g_r(x(t)), \, & t \in [t_0, t_f] \ \mathrm{a.e.}, \\[1em]
+\phantom{\mathrm{s.t.} \ } u(t) \in [-1, 1], & t \in [t_0, t_f], \\[1em]
+\phantom{\mathrm{s.t.} \ } x(t_0) = x_0, \quad y(t_0) = y_0, \quad y(t_f) = T,
+\end{array}
+\right.
+```
+where ``t_0 \in \mathbb R``, ``x_0 > 0 ``, ``y_0 > 0`` and ``T > 0`` are provided.  
 
 # Main theoretical results
 
