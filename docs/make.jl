@@ -16,7 +16,7 @@ cp(
 repo_url = "github.com/remydutto/CTMembraneFiltration.jl"
 
 makedocs(;
-    draft=false, # if draft is true, then the julia code from .md is not executed
+    draft=true, # if draft is true, then the julia code from .md is not executed
     # to disable the draft mode in a specific markdown file, use the following:
     #=
     ```@meta
@@ -35,7 +35,11 @@ makedocs(;
             asset("https://control-toolbox.org/assets/js/documentation.js"),
         ],
     ),
-    pages=["Introduction" => "index.md"],
+    pages=[
+        "Introduction" => "index.md",
+        "Optimal synthesis" => "optimal_synthesis.md",
+        "Turnpike property" => "turnpike_property.md"
+    ],
 )
 
 deploydocs(; repo=repo_url * ".git", devbranch="main")
