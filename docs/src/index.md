@@ -43,7 +43,7 @@ where ``\omega~(\mathrm m^{-1})`` models the detachment resistance of fouling.
 Let us assume that the flux $J$ is constant during filtration (``J = J_f > 0``) and backwash (``J = -J_b < 0``) phases. The goal is to minimize the total power used to produce a targeted permeate volume ``v_f`` at a free final time ``t_f``. Using equations given previously, the dynamics of the cost and the state variables are given in filtration and backwash modes by
 ```math
 \mathrm{Filtration} : \left\{ \begin{array}{rl}
-\dot e & \frac{J_f^2 \mu}{\eta} (R_0 + R_c),
+\dot e & = \frac{J_f^2 \mu}{\eta} (R_0 + R_c(t)),
 \\[0.5em]
 \dot R_c & = J_f \beta C, 
 \\[0.5em]
