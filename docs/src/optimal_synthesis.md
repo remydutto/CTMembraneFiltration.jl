@@ -77,7 +77,14 @@ A singular arc corresponds to an interval of time `` I \subset [t_0, t_f]`` such
 H_0(R_c, p) = H_1(R_c, p) = 0
 ```
 
-one can deduce that ``p_1(t) = \alpha(R_c(t))`` and ``p_2(t) = \beta(R_c(t))`` for all ``t \in I``, where functions ``\alpha`` and ``\beta`` are defined on the code below. 
+one can deduce that ``p_1(t) = \alpha(R_c(t))`` and ``p_2(t) = \beta(R_c(t))`` for all ``t \in I``, where functions ``\alpha`` and ``\beta`` are defined on the code below.
+
+Since ``H_1(R_c(t), p(t)) = 0`` on the singular arc, one has 
+```math 
+\frac{\mathrm d H_1}{\partial t}(R_c(t), p(t)) = \{H_0, H_1\}(R_c(t), p(t)) = 0 \quad \text{for all } t \in I
+``` 
+
+The following code finds the singular state ``R_c`` such that ``\{H_0, H_1\}(R_c, p_s(R_c)) = 0`` where ``p_s(R_c) = [-1, \alpha(R_c), \beta(R_c)]``. 
 
 ```@example main
 # Compute the main functions
