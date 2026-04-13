@@ -39,7 +39,7 @@ This section addresses the singular control analysis for optimal synthesis. The 
 dβ(Rc) = ForwardDiff.derivative(β, Rc)
 ψ(Rc) = -dβ(Rc) /Δ(Rc)
 
-Rc_sing = find_zero(ψ, 2.5)
+Rc_sing = Roots.find_zero(ψ, 2.5)
 println("Singular state : ", Rc_sing)
 
 plt = plot(xlim = (0, 10), ylim = (-1, 1))
