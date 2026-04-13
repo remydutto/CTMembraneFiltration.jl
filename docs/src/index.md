@@ -43,7 +43,7 @@ where ``\omega~(\mathrm m^{-1})`` models the detachment resistance of fouling.
 Let us assume that the flux $J$ is constant during filtration (``J = J_f > 0``) and backwash (``J = -J_b < 0``) phases. The goal is to minimize the total power used to produce a targeted permeate volume ``v_f`` at a free final time ``t_f``. Using equations given previously, the dynamics of the cost and the state variables are given in filtration and backwash modes by
 ```math
 \mathrm{Filtration} : \left\{ \begin{array}{rl}
-\dot e & = \frac{J_f^2 \mu}{\eta} (R_0 + R_c(t)),
+\dot e & = \frac{J_f^2 \mu}{\eta} (R_0 + R_c),
 \\[0.5em]
 \dot R_c & = J_f \beta C, 
 \\[0.5em]
@@ -65,16 +65,15 @@ Let ``u \in [-1, 1]`` be the control variable, where `` u = +1`` denotes filtrat
 \text{(OCP)} \quad
 \left\{ 
 \begin {array}{ll}
-\displaystyle \min_{x,y,t_f} \int_{t_0}^{t_f} \frac{\mu(R_0 + R_c)}{2\eta}(J_f^2 + J_b^2 + u(t)(J_f^2 - J_b^2)) \, \mathrm dt, 
-& t \in [t_0, t_f] \ \mathrm{a.e.}, \\[1em]
-\displaystyle \mathrm{s.t.} \ \dot x(t) = \frac{1 + u(t)}{2} f_p(x(t)) + \frac{1-u(t)}{2} f_r(x(t)), & t \in [t_0, t_f] \ \mathrm{a.e.}, \\[1em] 
-\displaystyle \phantom{\mathrm{s.t.} \ } \dot y(t) = \frac{1 + u(t)}{2} g_p(x(t)) + \frac{1-u(t)}{2} g_r(x(t)), \, & t \in [t_0, t_f] \ \mathrm{a.e.}, \\[1em]
+\displaystyle \min_{x,y,t_f} \int_{t_0}^{t_f} \frac{\mu(R_0 + R_c(t))}{2\eta}\big(J_f^2 + J_b^2 + u(t)(J_f^2 - J_b^2)\big) \, \mathrm dt, &  \\[1em]
+\displaystyle \mathrm{s.t.} \ \dot R_c(t) = J_f\beta C - J_b \omega R_c(t) + u(t)\big(J_f \beta C + J_b \omega R_c(t)\big), & t \in [t_0, t_f] \ \mathrm{a.e.}, \\[1em] 
+\displaystyle \phantom{\mathrm{s.t.} \ } \dot v(t) = A\big((J_f - J_b) + u(t)(J_f + J_b)\big), \, & t \in [t_0, t_f] \ \mathrm{a.e.}, \\[1em]
 \phantom{\mathrm{s.t.} \ } u(t) \in [-1, 1], & t \in [t_0, t_f], \\[1em]
-\phantom{\mathrm{s.t.} \ } x(t_0) = x_0, \quad y(t_0) = y_0, \quad y(t_f) = T,
+\phantom{\mathrm{s.t.} \ } R_c(t_0) = R_{c0}, \quad v(t_0) = v_0, \quad v(t_f) = v_f,
 \end{array}
 \right.
 ```
-where ``t_0 \in \mathbb R``, ``x_0 > 0 ``, ``y_0 > 0`` and ``T > 0`` are provided.  
+where ``t_0 \in \mathbb R``, ``R_{c0} > 0``, ``v_0 > 0`` and ``v_f > 0`` are provided.  
 
 # Main theoretical results
 
