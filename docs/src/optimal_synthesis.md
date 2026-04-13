@@ -1,6 +1,8 @@
 # Optimal Synthesis
 
-This section demonstrates the setup process for optimal synthesis analysis. The following code activates the Julia project environment and imports the required packages for optimal control analysis, including plotting, automatic differentiation, root finding, and differential equation solving.
+This section shows how to construct optimal synthesis associated to (OCP). Roughtly, an optimal synthesis corresponds to a partition of the state space into regions where different control strategies are optimal. To do this, we need to compute the singular locus and the switching locus.
+
+First of all, let's import the required packages for this page.
 
 ```@example main
 # Import required packages for optimal control analysis
@@ -13,7 +15,12 @@ using OrdinaryDiffEq     # For solving differential equations
 
 # Model definition
 
-This section covers the mathematical modeling phase of optimal synthesis. The following code defines the system parameters and dynamics functions for the membrane filtration model, including the vector fields for control u = +1 and u = -1.
+Let remark that the (OCP) problem is affine with respect to the control. The state and the cost dynamic can be written as
+
+```math
+\dot x = f(Rc) + u \cdot g(Rc)
+```
+where ``x = [e, R_c, v]`` is the augmented state, and where functions ``f`` and ``g`` are defined in the follwing code. 
 
 ```@example main
 # Model parameters for the membrane filtration system
@@ -41,7 +48,36 @@ nothing; # hide
 
 # Singular locus
 
-This section addresses the singular control analysis for optimal synthesis. The following code computes the main functions Δ, α, and β, finds the singular state by solving ψ(Rc) = 0, and visualizes the switching function behavior.
+The goal now is to compute the singular locus. To do this, we need first to compute the singular locus. 
+
+Since the system is affine with respect to the control, the hamitonian is also affine with respect to the control, and can be written as
+
+```math
+H(R_c, p, u) = H_0(R_c, p) + u \cdot H_1(R_c, p),
+```
+where 
+```math
+H_0(R_c, p) = p \cdot f(R_c) \quad \text{and} \quad H_1(R_c, p) = p \cdot g(R_c)
+```
+where ``p = [-1, p_2, p_3]`` is the augmented costate.
+
+Thanks to the maximization condition of the Pontryagin maximum principle, the optimal control is given for almost all ``t \in [t_0, t_f]`` by 
+
+```math 
+u(t) \left\{ \begin{array}{ll}
+ = +1 & \text{if } H_1(R_c(t), p(t)) > 0 \\[0.5em]
+ = -1 & \text{if } H_1(R_c(t), p(t)) < 0 \\[0.5em]
+\in [-1, 1] & \text{if } H_1(R_c(t), p(t)) = 0
+\end{array} \right.
+```
+
+A singular arc corresponds to an interval of time `` I \subset [t_0, t_f]`` such that ``H_1(R_c(t), p(t)) = 0`` for all ``t \in I``. Since the final time ``t_f`` is free, one has ``H(R_c(t_f), p(t_f)) = 0`` for all ``t \in [t_0, t_f]``. By using 
+
+```math
+H_0(R_c, p) = H_1(R_c, p) = 0
+```
+
+one can deduce that ``p_1(t) = \alpha(R_c(t))`` and ``p_2(t) = \beta(R_c(t))`` for all ``t \in I``, where functions ``\alpha`` and ``\beta`` are defined on the code below. 
 
 ```@example main
 # Compute the main functions
@@ -67,6 +103,12 @@ scatter!(plt, [Rc_sing], [0], label = "Singular state", color = :red)
 ```
 
 This section defines the Hamiltonian function and the singular control. The following code creates flow objects for each Hamiltonian, computes the end of the singular arc by finding the zero of the function S, and plots the switching function.
+
+Moreover, on the singular arc, the state ``R_c(t)`` remains constant, and the singular control cancel ``\dot R_c`` which leads to 
+
+```math 
+u(t) = 
+```
 
 ```@example main
 # Define the Hamiltonian function H(x,p,u) = p'*(f(x[2]) + u*g(x[2]))
