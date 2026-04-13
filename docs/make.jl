@@ -38,7 +38,7 @@ makedocs(;
     pages=[
         "Introduction" => "index.md",
         "Optimal synthesis" => "optimal_synthesis.md",
-        "Turnpike property" => "turnpike_property.md"
+        "Turnpike property" => "turnpike_property.md",
     ],
 )
 
