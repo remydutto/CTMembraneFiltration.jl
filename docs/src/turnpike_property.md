@@ -1,4 +1,4 @@
-# Turnpike Property Analysis on Two Resistance Case
+# Two resistances case and turnpike property
 
 In this section, we are interest in a more complex optimal control problem for membrane filtration systems, where we consider two internal resistances. Such problem is currently under investigation, and this section shows some numerical preliminary results about the turnpike property.
 
@@ -22,7 +22,7 @@ using ForwardDiff             # Forward mode automatic differentiation
 using Ipopt, Optimization, OptimizationMOI  # Additional optimization tools
 ```
 
-## Problem Definition
+## Problem definition
 
 Let's define the following optimal control problem, which corresponds to the Problem (OCP) with two resistances ``R_1`` and ``R_2``, connected through the cost function.
 
@@ -60,7 +60,7 @@ ocp = @def begin
 end
 ```
 
-## Direct Method
+## Direct method
 
 Let's now solve this optimal control problem by using the direct method, thanks to the `solve` function from `OptimalControl.jl`.
 
@@ -73,7 +73,7 @@ plt_sol = plot(direct_sol, label = "direct")
 
 As we can see, mainly during the singular arc, the solution is not precise. Such imprecision is well-known for direct methods applied to problems with singular controls, and a way to overcome this issue is to use the indirect method, with direct methods solution as initial guess.
 
-## Hamiltonians 
+## Structure of the solution
 
 To use the indirect method, we first need to determine the structure associated to the solution of the studied optimal control problem. In this case, the structure of the solution is composed by three arcs: first a bang arc with control ``u = +1``, then a singular arc ``u = u_s(x,p)``, and finally another bang arc with control ``u = +1``; where the singular control ``u_s(x,p)`` is defined by 
 ```math
@@ -118,7 +118,7 @@ plot!(plt, t -> H01(x(t), p(t)), t0, tf, label = "H₀₁(x(t), p(t))")
 plot!(plt, [t0, tf], [0, 0], c = :black, ls = :dash, label = nothing)
 ```
 
-## Indirect Shooting Method
+## Indirect shooting method
 
 To goal now is to get the solution by the indirect shooting method. To do this, we need to solve a boundary value problem (BVP) where the boundary conditions are given by the transversality conditions and the continuity conditions at the switching times. Especially, the goal is to find the initial costate ``p_1(t_0)``, ``p_2(t_0)``, and ``p_3(t_0)`` and the switching times ``t_1`` and ``t_2`` that satisfy : 
 - The terminal condition: 
@@ -172,9 +172,9 @@ flow_sol = ϕ((t0, tf), x0, p0; saveat=range(t0, tf, 1000))
 plot!(plt_sol, flow_sol, label="indirect")
 ```
 
-## Turnpike Property
+## Turnpike property
 
-The goal is now to numerically highlight the turnpike propoerty of the studied optimal control problem. To do this, we find the optimal steady-state solution, in the sens that we want to find the triplet ``(R^_1*, R_2*, u*) \in \mathbb R^3`` that minimizes the "optimal ponderated cost" while satisfying the constraints of being constant (steady-state). In other words, ``(R^_1*, R_2*, u*)`` is the solution of the following optimization problem : 
+The goal is now to numerically highlight the turnpike propoerty of the studied optimal control problem. To do this, we find the optimal steady-state solution, in the sens that we want to find the triplet ``(R_1^\star, R_2^\star, u^\star) \in \mathbb R^3`` that minimizes the "optimal ponderated cost" while satisfying the constraints of being constant (steady-state). In other words, ``(R_1^\star, R_2^\star, u^\star)`` is the solution of the following optimization problem : 
 
 ```math
 \begin{aligned}
@@ -189,7 +189,7 @@ where :
 - ``\dot{R_1} = f_{R_1}(R_1, u)`` and ``\dot{R_2} = f_{R_2}(R_2, u)`` corresponds respectively to the dynamics of the first and second resistance (``R_1`` and ``R_2``),
 - ``p_2`` is the optimal costate variable associated to the state ``v``. This is computed thanks to the indirect method. 
 
-This optimization problem is solved thanks to the Òptimization.jl package. 
+This optimization problem is solved thanks to the `Optimization.jl` package. 
 ```@example main
 # Constraints
 function cons!(dξ, ξ,_)

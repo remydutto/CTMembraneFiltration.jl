@@ -1,4 +1,4 @@
-## Introduction
+# Introduction
 
 Production–regeneration systems describe processes that must alternate between a productive phase and a recovery phase. During production, the system generates an output (for instance filtered water), but this phase also progressively degrades an internal state (such as fouling or resistance). The regeneration phase does the opposite: it restores the system’s internal condition, but does not directly produce useful output.
 
@@ -166,7 +166,7 @@ Pkg.status(; mode = PKGMODE_MANIFEST) # hide
 </details>
 ```
 
-# Partners and Fundings
+## Partners and fundings
 
 ```@raw html
 <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">

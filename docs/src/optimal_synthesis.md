@@ -1,4 +1,4 @@
-# Optimal Synthesis
+# Optimal synthesis
 
 This section shows how to construct optimal synthesis associated to Problem (OCP). Roughtly speaking, an optimal synthesis corresponds to a partition of the state space into regions where different control strategies are optimal. To do this, we need to compute the singular locus and the switching locus. 
 
@@ -16,7 +16,7 @@ using Roots              # For root finding algorithms
 using OrdinaryDiffEq     # For solving differential equations
 ```
 
-# Model definition
+## Model definition
 
 Let remark that the (OCP) problem is affine with respect to the control. The state and the cost dynamic can be written as
 
@@ -49,7 +49,7 @@ g(Rc) = [
 nothing; # hide
 ```
 
-# Singular locus
+## Singular locus
 
 The goal now is to compute the singular locus. To do this, we need first to analyse the system to determine candidates for singular states. 
 
@@ -160,7 +160,7 @@ plot!(plt, [0,10], [0,0], label = nothing, color = :black, ls = :dash)
 scatter!(plt, [v_star], [0], label = "Singular state", color = :red)
 ```
 
-# Switching locus
+## Switching locus
 
 The goal now is to construct the switching locus ``\mathcal S``, which is the set of points ``(R_c, v)`` in the state space where the optimal control switches from ``u = -1`` to ``u = +1``. If ``(R_c, v) \in \mathcal S``, then one has ``S(R_c, v) = 0``, where the function ``S \colon \mathbb R^2 \to \mathbb R`` is defined below. Moreover, one can use differential continuation method to find the switching locus. 
 
@@ -207,6 +207,8 @@ SL = solve(prob, Tsit5())
 
 nothing; # hide
 ```
+
+## Feedback synthesis
 
 The following code simply creates the optimal feedback synthesis, based on the construction of the singular locus and the switching locus.
 
