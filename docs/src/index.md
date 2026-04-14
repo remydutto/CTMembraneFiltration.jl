@@ -1,18 +1,18 @@
-# Introduction
+## Introduction
 
 Production–regeneration systems describe processes that must alternate between a productive phase and a recovery phase. During production, the system generates an output (for instance filtered water), but this phase also progressively degrades an internal state (such as fouling or resistance). The regeneration phase does the opposite: it restores the system’s internal condition, but does not directly produce useful output.
 
-This package focuses on the analysis and optimization of such systems, particularly in the context of membrane filtration processes where fouling accumulates during filtration and must be periodically removed through regeneration (e.g., backwashing). Such system is schematized through the following figure:
+Our goal is to showh how the [Control-Toolbox](https://control-toolbox.org/) ecosystem, in particulary the [OptimalControl.jl](https://github.com/Control-toolbox/OptimalControl.jl) package, can be used in the context of membrane filtration processes where fouling accumulates during filtration and must be periodically removed through regeneration (e.g., backwashing). Such system is schematized through the following figure.
 
 ```@raw html
     <img src="./assets/backwash.jpg" width="800px">
 ```
 
-# Description of membrane filtration system
+A package dedicated to production-regeneration systems, specialized on such application is available and denoted [Filtration.jl](https://remydutto.github.io/doc-Filtration.jl/dev/).
 
-The goal now is to briefly describe the modelling of a membrane filtration process, in order to introduce two examples of problems which can be handled with [CTMembraneFiltration.jl](https://remydutto.github.io/CTMembraneFiltration.jl) package.
+## Description of membrane filtration system
 
-The permeate flux ``J~(\mathrm m. \mathrm s^{-1})`` corresponds to the permeate volume ``v~(\mathrm m^3)`` flow per membrane area ``A~(\mathrm m^2)`` and is related to the total resistance ``R~(\mathrm m^{-1})`` of the membrane according to the Darcy's law 
+The goal now is to briefly describe the modelling of a membrane filtration process. The permeate flux ``J~(\mathrm m. \mathrm s^{-1})`` corresponds to the permeate volume ``v~(\mathrm m^3)`` flow per membrane area ``A~(\mathrm m^2)`` and is related to the total resistance ``R~(\mathrm m^{-1})`` of the membrane according to the Darcy's law 
 ```math
     J = \frac{\dot v}{A} = \frac{\Delta p}{\mu R}
 ```
@@ -38,7 +38,7 @@ where ``\beta~(\mathrm m.\mathrm{Kg}^{-1})`` is a parameter that describes the r
 ```
 where ``\omega~(\mathrm m^{-1})`` models the detachment resistance of fouling. 
 
-# Problem statement
+## Problem statement
 
 Let us assume that the flux $J$ is constant during filtration (``J = J_f > 0``) and backwash (``J = -J_b < 0``) phases. The goal is to minimize the total power used to produce a targeted permeate volume ``v_f`` at a free final time ``t_f``. Using equations given previously, the dynamics of the cost and the state variables are given in filtration and backwash modes by
 ```math
@@ -75,7 +75,7 @@ Let ``u \in [-1, 1]`` be the control variable, where `` u = +1`` denotes filtrat
 ```
 where ``t_0 \in \mathbb R``, ``R_{c0} > 0``, ``v_0 > 0`` and ``v_f > 0`` are provided.  
 
-# Main theoretical results
+## Main theoretical results
 
 Based on the theoretical developments presented in [Dutto et al., 2026](https://hal.science/hal-05493075), all possible optimal solution structures are characterized by the following result:
 
@@ -95,6 +95,17 @@ Based on the theoretical developments presented in [Dutto et al., 2026](https://
     ```
 
 Here, ``u_s`` denotes a singular control such that ``\dot x = 0``. See [Dutto et al., 2026](https://hal.science/hal-05493075) for a detailed presentation and proof.
+
+## References
+
+- [Filtration.jl](https://remydutto.github.io/doc-Filtration.jl/dev/)
+- [OptimalControl.jl](https://juliadynamics.github.io/OptimalControl.jl/dev/)
+- Rémy Dutto, Jérôme Harmand, Alain Rapaport (2026). [Optimal control synthesis for a class of production-regeneration systems -Application to membrane filtration](https://hal.science/hal-05493075).
+- F. Aichouche, N. Kalboussi, A. Rapaport, J. Harmand (2020). [Modeling and optimal control for production-regeneration systems - preliminary results -](https://ieeexplore.ieee.org/document/9143741), _2020 European Control Conference (ECC)_
+- B. Benyahia, A. Charfi, N. Benamar, M. Heran, A. Grasmick, B. Cherki, J. Harmand (2013). [A simple model of anaerobic membrane bioreactor for control design: coupling the “AM2b” model with a simple membrane fouling dynamics](https://www.researchgate.net/publication/272506325_A_simple_model_of_anaerobic_membrane_bioreactor_for_control_design_coupling_the_AM2b_model_with_a_simple_membrane_fouling_dynamics), _World Congress on Anerobic Digestion: Recovering (bio) Ressources for the World_
+- F. Ellouze, Y. Kammoun, N. Kalboussi, A. Rapaport, J. Harmand, S. Nasr, N. Ben Amar (2023) [Optimal control of backwash scheduling for pumping energy saving: Application to the treatment of urban wastewater](https://www.sciencedirect.com/science/article/abs/pii/S221471442300898X), _Journal of Water Process Engineering_
+- N. Kalboussi, A. Rapaport, T. Bayen, N. Ben Amar, F. Ellouze, J. Harmand (2017) [Optimal control of a membrane filtration system](https://doi.org/10.1016/j.ifacol.2017.08.1554), _IFAC-PapersOnLine_
+- N. Kalboussi, J. Harmand, A. Rapaport, T. Bayen, F. Ellouze, N. Ben Amar (2018) [Optimal control of physical backwash strategy - towards the enhancement of membrane filtration process performance](https://www.sciencedirect.com/science/article/abs/pii/S0376738817319166), _Journal of Membrane Science_
 
 ## Reproducibility
 

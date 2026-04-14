@@ -1,6 +1,9 @@
 # Optimal Synthesis
 
-This section shows how to construct optimal synthesis associated to (OCP). Roughtly speaking, an optimal synthesis corresponds to a partition of the state space into regions where different control strategies are optimal. To do this, we need to compute the singular locus and the switching locus.
+This section shows how to construct optimal synthesis associated to Problem (OCP). Roughtly speaking, an optimal synthesis corresponds to a partition of the state space into regions where different control strategies are optimal. To do this, we need to compute the singular locus and the switching locus. 
+
+!!! remark
+    In this page, some results are given quickly and without detailed explanations. If you want to deeply understand the mathematical background, please refer to the original paper [Dutto et al., 2026](https://hal.science/hal-05493075).
 
 First of all, let's import the required packages for this page.
 
@@ -20,7 +23,7 @@ Let remark that the (OCP) problem is affine with respect to the control. The sta
 ```math
 \dot x = f(Rc) + u \cdot g(Rc)
 ```
-where ``x = [e, R_c, v]`` is the augmented state, and where functions ``f = [f_0, f_1, f_2]`` and ``g = [g_0, g_1, g_2]`` are defined in the follwing code. 
+where ``x = [e, R_c, v]`` is the augmented state, and where functions ``f = [f_0, f_1, f_2]`` and ``g = [g_0, g_1, g_2]`` are given in the defintion of (OCP) and defined in the follwing code. 
 
 ```@example main
 # Model parameters for the membrane filtration system
@@ -48,7 +51,7 @@ nothing; # hide
 
 # Singular locus
 
-The goal now is to compute the singular locus. To do this, we need first to compute the singular locus. 
+The goal now is to compute the singular locus. To do this, we need first to analyse the system to determine candidates for singular states. 
 
 Since the system is affine with respect to the control, the hamitonian is also affine with respect to the control, and can be written as
 
@@ -169,7 +172,7 @@ To do this, let assume that there exists a function ``\gamma`` such that points 
 which gives
 
 ```math
-\gamma'(R_c) = F(R_c, \gamma(R_c)) = -\left(\frac{\partial S}{\partial v}(R_c, \gamma(R_c))\right)^{-1} \frac{\partial S}{\partial R_c}(R_c, \gamma(R_c))
+\gamma'(R_c) = F(R_c, \gamma(R_c)) = -\left(\frac{\partial S}{\partial v}(R_c, \gamma(R_c))\right)^{-1} \frac{\partial S}{\partial R_c}(R_c, \gamma(R_c)).
 ```
 The differential continuation method consists to solve the follwing cauchy problem 
 
