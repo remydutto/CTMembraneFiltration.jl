@@ -2,31 +2,31 @@
 
 Production–regeneration systems describe processes that must alternate between a productive phase and a recovery phase. During production, the system generates an output (for instance filtered water), but this phase also progressively degrades an internal state (such as fouling or resistance). The regeneration phase does the opposite: it restores the system’s internal condition, but does not directly produce useful output.
 
-Our goal is to showh how the [Control-Toolbox](https://control-toolbox.org/) ecosystem, in particulary the [OptimalControl.jl](https://github.com/Control-toolbox/OptimalControl.jl) package, can be used in the context of membrane filtration processes where fouling accumulates during filtration and must be periodically removed through regeneration (e.g., backwashing). Such system is schematized through the following figure.
+Our goal is to show how the [Control-Toolbox](https://control-toolbox.org/) ecosystem, in particular the [OptimalControl.jl](https://github.com/Control-toolbox/OptimalControl.jl) package, can be used in the context of membrane filtration processes where fouling accumulates during filtration and must be periodically removed through regeneration (e.g., backwashing). This system is shown in the following figure.
 
 ```@raw html
     <img src="./assets/backwash.jpg" width="800px">
 ```
 
-A package dedicated to production-regeneration systems, specialized on such application is available and denoted [Filtration.jl](https://remydutto.github.io/doc-Filtration.jl/dev/).
+A package dedicated to production-regeneration systems, specialized for such applications, is available and denoted [Filtration.jl](https://remydutto.github.io/doc-Filtration.jl/dev/).
 
 ## Description of membrane filtration system
 
-The goal now is to briefly describe the modelling of a membrane filtration process. The permeate flux ``J~(\mathrm m. \mathrm s^{-1})`` corresponds to the permeate volume ``v~(\mathrm m^3)`` flow per membrane area ``A~(\mathrm m^2)`` and is related to the total resistance ``R~(\mathrm m^{-1})`` of the membrane according to the Darcy's law 
+The goal is to briefly describe the modeling of a membrane filtration process. The permeate flux ``J~(\mathrm m. \mathrm s^{-1})`` corresponds to the permeate volume ``v~(\mathrm m^3)`` flow per membrane area ``A~(\mathrm m^2)`` and is related to the total resistance ``R~(\mathrm m^{-1})`` of the membrane according to Darcy's law 
 ```math
     J = \frac{\dot v}{A} = \frac{\Delta p}{\mu R}
 ```
-where ``\Delta p~(\mathrm{Pa})`` corresponds to the trans-membrane pressure and ``\mu~(\mathrm{Pa}.\mathrm s)`` is the permeate viscosity. The total resistance of the membrane corresponds to the sum between the the intrinsic resistance ``R_0~(\mathrm m^{-1})`` and the residual cake resistance ``R_c~(\mathrm m^{-1})`` thanks to the "resistances-in-series" concept
+where ``\Delta p~(\mathrm{Pa})`` corresponds to the trans-membrane pressure and ``\mu~(\mathrm{Pa}.\mathrm s)`` is the permeate viscosity. The total resistance of the membrane corresponds to the sum of the intrinsic resistance ``R_0~(\mathrm m^{-1})`` and the residual cake resistance ``R_c~(\mathrm m^{-1})`` using the "resistances-in-series" concept
 ```math
     R = R_0 + R_c. 
 ```
-The pump consumes an energy ``e~(\mathrm W.\mathrm h)`` flow, whose variation is proportional to the hydraulic power ``P_h~(\mathrm W)``, the later being the product of the permeate flow ``J`` by the trans-membrane pressure ``\Delta p``
+The pump consumes energy ``e~(\mathrm W.\mathrm h)`` at a rate proportional to the hydraulic power ``P_h~(\mathrm W)``, which is the product of the permeate flow ``J`` and the trans-membrane pressure ``\Delta p``
 ```math 
     \dot e = \frac{J\Delta p}{\eta},
 ```
 where ``\eta`` is the efficiency parameter of the pump.
 
-The dynamics of the resistance ``R_c`` rely on complex phenomena, but an efficient simple formulation is given by the following: 
+The dynamics of the resistance ``R_c`` involve complex phenomena, but a simple and effective formulation is given by the following: 
 - In filtration phases (when ``u = +1``), this resistance variation is proportional to the flux ``J`` and the total suspended solids concentration ``C~(\mathrm{Kg}.\mathrm m^{-3})`` 
 ```math
     \dot R_c = J \beta C \quad \text{when} \quad u = +1,
@@ -59,7 +59,7 @@ Let us assume that the flux $J$ is constant during filtration (``J = J_f > 0``) 
 \end{array} \right.  
 ```
 
-Let ``u \in [-1, 1]`` be the control variable, where `` u = +1`` denotes filtration mode and ``u = -1`` denotes backwash mode, we consider the following optimal control problem
+Let ``u \in [-1, 1]`` be the control variable, where ``u = +1`` denotes filtration mode and ``u = -1`` denotes backwash mode. We consider the following optimal control problem:
 
 ```math
 \text{(OCP)} \quad
@@ -73,7 +73,7 @@ Let ``u \in [-1, 1]`` be the control variable, where `` u = +1`` denotes filtrat
 \end{array}
 \right.
 ```
-where ``t_0 \in \mathbb R``, ``R_{c0} > 0``, ``v_0 > 0`` and ``v_f > 0`` are provided.  
+where ``t_0 \in \mathbb R``, ``R_{c0} > 0``, ``v_0 > 0``, and ``v_f > 0`` are given.  
 
 ## Main theoretical results
 
@@ -94,7 +94,7 @@ Based on the theoretical developments presented in [Dutto et al., 2026](https://
     \sigma_+\sigma_s\sigma_+.
     ```
 
-Here, ``u_s`` denotes a singular control such that ``\dot x = 0``. See [Dutto et al., 2026](https://hal.science/hal-05493075) for a detailed presentation and proof.
+Here, ``u_s`` denotes a singular control such that ``\dot x = 0``. See [Dutto et al., 2026](https://hal.science/hal-05493075) for a detailed explanation and proof.
 
 ## References
 

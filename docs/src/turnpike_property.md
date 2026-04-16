@@ -1,12 +1,12 @@
 # Two resistances case and turnpike property
 
-In this section, we are interest in a more complex optimal control problem for membrane filtration systems, where we consider two internal resistances. Such problem is currently under investigation, and this section shows some numerical preliminary results about the turnpike property.
+In this section, we are interested in a more complex optimal control problem for membrane filtration systems, where we consider two internal resistances. This problem is currently under investigation, and this section shows some preliminary numerical results about the turnpike property.
 
-In fact, Problem (OCP) has the turnpike property, which roughtly speaking means that the optimal solution spends most of its time in a neighborhood of the steady-state solution (during the singular arc) for long time horizons. Especially, Problem (OCP) has the exact turnpike property, which means that the singular state correponds to the steady-state solution.
+In fact, Problem (OCP) has the turnpike property, which roughly speaking means that the optimal solution spends most of its time in a neighborhood of the steady-state solution (during the singular arc) for long time horizons. In particular, Problem (OCP) has the exact turnpike property, which means that the singular state corresponds to the steady-state solution.
 
 In this more complex example, we will numerically see the non-exact turnpike property, i.e., the singular arc converges to the steady-state solution but not exactly, due to controllability issues.
 
-To do this, we will first solve the optimal control problem with direct method, then with indirect method (shooting method) to get a more precise solution, andd then inversigate on the turnpike property.
+To do this, we will first solve the optimal control problem with the direct method, then with the indirect method (shooting method) to get a more precise solution, and then investigate the turnpike property.
 
 Before this, let's set up the required libraries.
 
@@ -71,17 +71,17 @@ direct_sol = solve(ocp)
 plt_sol = plot(direct_sol, label = "direct")
 ```
 
-As we can see, mainly during the singular arc, the solution is not precise. Such imprecision is well-known for direct methods applied to problems with singular controls, and a way to overcome this issue is to use the indirect method, with direct methods solution as initial guess.
+As we can see, mainly during the singular arc, the solution is not precise. Such imprecision is well-known for direct methods applied to problems with singular controls, and a way to overcome this issue is to use the indirect method, with the direct method solution as an initial guess.
 
 ## Structure of the solution
 
-To use the indirect method, we first need to determine the structure associated to the solution of the studied optimal control problem. In this case, the structure of the solution is composed by three arcs: first a bang arc with control ``u = +1``, then a singular arc ``u = u_s(x,p)``, and finally another bang arc with control ``u = +1``; where the singular control ``u_s(x,p)`` is defined by 
+To use the indirect method, we first need to determine the structure associated with the solution of the studied optimal control problem. In this case, the structure of the solution is composed of three arcs: first a bang arc with control ``u = +1``, then a singular arc ``u = u_s(x,p)``, and finally another bang arc with control ``u = +1``; where the singular control ``u_s(x,p)`` is defined by 
 ```math
 u_s(x,p) = -\frac{H_{001}(x,p)}{H_{101}(x,p)} = \frac{\{H_0, \{H_0, H_1\}\}(x,p)}{\{H_1, \{H_0, H_1\}\}(x,p)}
 ```
 and where ``\{H_0, H_1\}`` denotes the classical Poisson bracket.
 
-A way to ensure that the strucure is given by this sequence is to check the sign of ``H_1`` along the direct solution trajectory.
+A way to ensure that the structure is given by this sequence is to check the sign of ``H_1`` along the direct solution trajectory.
 
 ```@example main
 # Lift into (x,λ) space
@@ -120,7 +120,7 @@ plot!(plt, [t0, tf], [0, 0], c = :black, ls = :dash, label = nothing)
 
 ## Indirect shooting method
 
-To goal now is to get the solution by the indirect shooting method. To do this, we need to solve a boundary value problem (BVP) where the boundary conditions are given by the transversality conditions and the continuity conditions at the switching times. Especially, the goal is to find the initial costate ``p_1(t_0)``, ``p_2(t_0)``, and ``p_3(t_0)`` and the switching times ``t_1`` and ``t_2`` that satisfy : 
+The goal now is to get the solution by the indirect shooting method. To do this, we need to solve a boundary value problem (BVP) where the boundary conditions are given by the transversality conditions and the continuity conditions at the switching times. In particular, the goal is to find the initial costate ``p_1(t_0)``, ``p_2(t_0)``, and ``p_3(t_0)`` and the switching times ``t_1`` and ``t_2`` that satisfy: 
 - The terminal condition: 
 ```math
 v(t_f) = v_f,
@@ -129,12 +129,12 @@ v(t_f) = v_f,
 ```math
 p_3(t_f) = p_4(t_f) = 0,
 ```
-- Condition linked to the manner to hit the singular locus:
+- Condition related to how to hit the singular locus:
 ```math
 H_0(x(t_1), p(t_1)) = H_1(x(t_1), p(t_1)) = H_{01}(x(t_1), p(t_1)) = 0.
 ```
 
-This is done by finding a zero of the shooting function ``S`` thanks to the `fsolve` function from the `NonlinearSolve.jl` package. The optimal trajectory is then plot to be compared to the direct solution.
+This is done by finding a zero of the shooting function ``S`` thanks to the `fsolve` function from the `NonlinearSolve.jl` package. The optimal trajectory is then plotted to be compared to the direct solution.
 
 ```@example main
 # Shooting function
@@ -174,7 +174,7 @@ plot!(plt_sol, flow_sol, label="indirect")
 
 ## Turnpike property
 
-The goal is now to numerically highlight the turnpike propoerty of the studied optimal control problem. To do this, we find the optimal steady-state solution, in the sens that we want to find the triplet ``(R_1^\star, R_2^\star, u^\star) \in \mathbb R^3`` that minimizes the "optimal ponderated cost" while satisfying the constraints of being constant (steady-state). In other words, ``(R_1^\star, R_2^\star, u^\star)`` is the solution of the following optimization problem : 
+The goal is now to numerically highlight the turnpike property of the studied optimal control problem. To do this, we find the optimal steady-state solution, in the sense that we want to find the triplet ``(R_1^\star, R_2^\star, u^\star) \in \mathbb R^3`` that minimizes the "optimal weighted cost" while satisfying the constraints of being constant (steady-state). In other words, ``(R_1^\star, R_2^\star, u^\star)`` is the solution of the following optimization problem: 
 
 ```math
 \begin{aligned}
@@ -184,10 +184,10 @@ The goal is now to numerically highlight the turnpike propoerty of the studied o
 \end{aligned}
 ```
 
-where :
+where:
 - ``\dot e = f^0(R_1, R_2, u)`` is the energy flow (cost),
 - ``\dot{R_1} = f_{R_1}(R_1, u)`` and ``\dot{R_2} = f_{R_2}(R_2, u)`` corresponds respectively to the dynamics of the first and second resistance (``R_1`` and ``R_2``),
-- ``p_2`` is the optimal costate variable associated to the state ``v``. This is computed thanks to the indirect method. 
+- ``p_2`` is the optimal costate variable associated with the state ``v``. This is computed thanks to the indirect method. 
 
 This optimization problem is solved thanks to the `Optimization.jl` package. 
 ```@example main

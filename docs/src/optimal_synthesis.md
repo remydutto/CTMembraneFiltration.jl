@@ -1,6 +1,6 @@
 # Optimal synthesis
 
-This section shows how to construct optimal synthesis associated to Problem (OCP). Roughtly speaking, an optimal synthesis corresponds to a partition of the state space into regions where different control strategies are optimal. To do this, we need to compute the singular locus and the switching locus. 
+This section shows how to construct the optimal synthesis associated with Problem (OCP). Roughly speaking, an optimal synthesis corresponds to a partition of the state space into regions where different control strategies are optimal. To do this, we need to compute the singular locus and the switching locus. 
 
 !!! remark
     In this page, some results are given quickly and without detailed explanations. If you want to deeply understand the mathematical background, please refer to the original paper [Dutto et al., 2026](https://hal.science/hal-05493075).
@@ -18,12 +18,12 @@ using OrdinaryDiffEq     # For solving differential equations
 
 ## Model definition
 
-Let remark that the (OCP) problem is affine with respect to the control. The state and the cost dynamic can be written as
+Note that the problem (OCP) is affine with respect to the control. The state and the cost dynamics can be written as
 
 ```math
 \dot x = f(Rc) + u \cdot g(Rc)
 ```
-where ``x = [e, R_c, v]`` is the augmented state, and where functions ``f = [f_0, f_1, f_2]`` and ``g = [g_0, g_1, g_2]`` are given in the defintion of (OCP) and defined in the follwing code. 
+where ``x = [e, R_c, v]`` is the augmented state, and where functions ``f = [f_0, f_1, f_2]`` and ``g = [g_0, g_1, g_2]`` are given in the definition of (OCP) and defined in the following code. 
 
 ```@example main
 # Model parameters for the membrane filtration system
@@ -53,7 +53,7 @@ nothing; # hide
 
 The goal now is to compute the singular locus. To do this, we need first to analyse the system to determine candidates for singular states. 
 
-Since the system is affine with respect to the control, the hamitonian is also affine with respect to the control, and can be written as
+Since the system is affine with respect to the control, the Hamiltonian is also affine with respect to the control, and can be written as
 
 ```math
 H(R_c, p, u) = H_0(R_c, p) + u \cdot H_1(R_c, p),
@@ -74,15 +74,15 @@ u(t) \left\{ \begin{array}{ll}
 \end{array} \right.
 ```
 
-A singular arc corresponds to an interval of time `` I \subset [t_0, t_f]`` such that ``H_1(R_c(t), p(t)) = 0`` for all ``t \in I``. Since the final time ``t_f`` is free, one has ``H(R_c(t_f), p(t_f)) = 0`` for all ``t \in [t_0, t_f]``. By using 
+A singular arc corresponds to an interval of time `` I \subset [t_0, t_f]`` such that ``H_1(R_c(t), p(t)) = 0`` for all ``t \in I``. Since the final time ``t_f`` is free, we have ``H(R_c(t_f), p(t_f)) = 0`` for all ``t \in [t_0, t_f]``. By using 
 
 ```math
 H_0(R_c, p) = H_1(R_c, p) = 0
 ```
 
-one can deduce that ``p_1(t) = \alpha(R_c(t))`` and ``p_2(t) = \beta(R_c(t))`` for all ``t \in I``, where functions ``\alpha`` and ``\beta`` are defined on the code below.
+one can deduce that ``p_1(t) = \alpha(R_c(t))`` and ``p_2(t) = \beta(R_c(t))`` for all ``t \in I``, where functions ``\alpha`` and ``\beta`` are defined in the code below.
 
-Since ``H_1(R_c(t), p(t)) = 0`` on the singular arc, one has 
+Since ``H_1(R_c(t), p(t)) = 0`` on the singular arc, we have 
 ```math 
 \frac{\mathrm d H_1}{\partial t}(R_c(t), p(t)) = \{H_0, H_1\}(R_c(t), p(t)) = 0 \quad \text{for all } t \in I
 ``` 
@@ -114,7 +114,7 @@ plot!(plt, [0, 10], [0, 0], label = nothing, color = :black, ls = :dash)
 scatter!(plt, [Rc_star], [0], label = "Singular state", color = :red)
 ```
 
-Since the state ``R_c`` is constant on the singular arc, the singular control cancels ``\dot R_c`` which leads to 
+Since the state ``R_c`` is constant on the singular arc, the singular control cancels out ``\dot R_c``, which leads to 
 
 ```math 
 u(t) = u_s(R_c^\star) \quad \text{where} \quad u_s(R_c) = -\frac{f_1(R_c)}{g_1(R_c)}
@@ -122,7 +122,7 @@ u(t) = u_s(R_c^\star) \quad \text{where} \quad u_s(R_c) = -\frac{f_1(R_c)}{g_1(R
 
 We can now easily compute the Hamiltonians ``H_+``, ``H_-`` and ``H_s`` and the flow ``\phi_+``, ``\phi_-`` and ``\phi_s`` respectively associated to ``u = +1``, ``u = -1`` and ``u = u_s(R_c)``.
 
-The singular locus corresponds to the set of points in the state space where there can exsits a singular arc. To find this set, it rest only to find the value ``v^\star`` on the ``v`` space where it is optimal to switch from ``u = u_s(R_c^\star)`` to ``u = +1``. To do this, and by using the transversality condition of the maximum principle, such points ``v^\star`` correponds to the root of the function ``S`` defined below. 
+The singular locus corresponds to the set of points in the state space where a singular arc can exist. To find this set, it remains only to find the value ``v^\star`` on the ``v`` space where it is optimal to switch from ``u = u_s(R_c^\star)`` to ``u = +1``. To do this, and by using the transversality condition of the maximum principle, such points ``v^\star`` correspond to the root of the function ``S`` defined below. 
 
 ```@example main
 # Define the Hamiltonian function H(x,p,u) = p'*(f(x[2]) + u*g(x[2]))
@@ -162,19 +162,19 @@ scatter!(plt, [v_star], [0], label = "Singular state", color = :red)
 
 ## Switching locus
 
-The goal now is to construct the switching locus ``\mathcal S``, which is the set of points ``(R_c, v)`` in the state space where the optimal control switches from ``u = -1`` to ``u = +1``. If ``(R_c, v) \in \mathcal S``, then one has ``S(R_c, v) = 0``, where the function ``S \colon \mathbb R^2 \to \mathbb R`` is defined below. Moreover, one can use differential continuation method to find the switching locus. 
+The goal now is to construct the switching locus ``\mathcal S``, which is the set of points ``(R_c, v)`` in the state space where the optimal control switches from ``u = -1`` to ``u = +1``. If ``(R_c, v) \in \mathcal S``, then one has ``S(R_c, v) = 0``, where the function ``S \colon \mathbb R^2 \to \mathbb R`` is defined below. Moreover, one can use differential continuation method to find the switching locus.
 
-To do this, let assume that there exists a function ``\gamma`` such that points ``(Rc, v)`` satisfy ``\gamma(Rc) = v``. One has thus ``S(Rc, γ(Rc)) = 0``, and then 
+To do this, let us assume that there exists a function ``\gamma`` such that points ``(Rc, v)`` satisfy ``\gamma(Rc) = v``. We thus have ``S(Rc, \gamma(Rc)) = 0``, and then
 
 ```math
-\frac{\partial S}{\partial R_c}(R_c, \gamma(R_c)) + \frac{\partial S}{\partial v}(R_c, \gamma(R_c)) \gamma'(R_c) = 0, 
+\frac{\partial S}{\partial R_c}(R_c, \gamma(R_c)) + \frac{\partial S}{\partial v}(R_c, \gamma(R_c)) \gamma'(R_c) = 0,
 ```
 which gives
 
 ```math
 \gamma'(R_c) = F(R_c, \gamma(R_c)) = -\left(\frac{\partial S}{\partial v}(R_c, \gamma(R_c))\right)^{-1} \frac{\partial S}{\partial R_c}(R_c, \gamma(R_c)).
 ```
-The differential continuation method consists to solve the follwing cauchy problem 
+The differential continuation method consists of solving the following Cauchy problem 
 
 ```math
 \gamma'(R_c) = F(R_c, \gamma(R_c)) \quad \gamma(R_c^\star) = v^\star, \quad R_c \geq R_c^\star.
@@ -210,7 +210,7 @@ nothing; # hide
 
 ## Feedback synthesis
 
-The following code simply creates the optimal feedback synthesis, based on the construction of the singular locus and the switching locus.
+The following code creates the optimal feedback synthesis, based on the construction of the singular locus and the switching locus.
 
 ```@example main
 # Create the synthesis plot showing the optimal control regions
