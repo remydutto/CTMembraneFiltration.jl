@@ -108,7 +108,7 @@ dβ(Rc) = ForwardDiff.derivative(β, Rc)
 Rc_star = Roots.find_zero(ψ, 2.5)
 
 # Create a visualization plot of the ψ function
-plt = plot(xlim = (0, 10), ylim = (-1, 1))
+plt = plot(xlim = (0, 10), ylim = (-1, 1), size = (800, 500))
 plot!(plt, ψ, 0, 10, label = "ψ")
 plot!(plt, [0, 10], [0, 0], label = nothing, color = :black, ls = :dash)
 scatter!(plt, [Rc_star], [0], label = "Singular state", color = :red)
@@ -154,7 +154,7 @@ end
 v_star = Roots.find_zero(S, 5)
 
 # Plot the function S
-plt = plot(xlim = (0, 9.5))
+plt = plot(xlim = (0, 9.5), size = (800, 500))
 plot!(plt, S, label = "S")
 plot!(plt, [0,10], [0,0], label = nothing, color = :black, ls = :dash)
 scatter!(plt, [v_star], [0], label = "Singular state", color = :red)
@@ -214,7 +214,7 @@ The following code creates the optimal feedback synthesis, based on the construc
 
 ```@example main
 # Create the synthesis plot showing the optimal control regions
-synthesis = plot(xlim = xlim, ylim = ylim, xlabel = "v", ylabel = "Rc", legend = :topleft)
+synthesis = plot(xlim = xlim, ylim = ylim, xlabel = "v", ylabel = "Rc", legend = :topleft, size = (800, 500))
 
 # Plot the region where control u = -1 is optimal (red shape)
 plot!(synthesis,

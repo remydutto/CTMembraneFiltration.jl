@@ -68,7 +68,7 @@ Let's now solve this optimal control problem by using the direct method, thanks 
 # Solve the optimal control problem using direct method (collocation)
 direct_sol = solve(ocp)
 # Plot the solution trajectory showing states, controls, and costates over time
-plt_sol = plot(direct_sol, label = "direct")
+plt_sol = plot(direct_sol, label = "direct", size = (800, 800))
 ```
 
 As we can see, mainly during the singular arc, the solution is not precise. Such imprecision is well-known for direct methods applied to problems with singular controls, and a way to overcome this issue is to use the indirect method, with the direct method solution as an initial guess.
@@ -111,8 +111,9 @@ u = control(direct_sol)
 p = costate(direct_sol)
 tf = time[end]
 
-# Structure of the solution 
-plt = plot(t -> H0(x(t), p(t)), t0, tf, label = "H₀(x(t), p(t))")
+# Structure of the solution *
+plt = plot(size = (800, 500))
+plot!(plt, t -> H0(x(t), p(t)), t0, tf, label = "H₀(x(t), p(t))")
 plot!(plt, t -> H1(x(t), p(t)), t0, tf, label = "H₁(x(t), p(t))")
 plot!(plt, t -> H01(x(t), p(t)), t0, tf, label = "H₀₁(x(t), p(t))")
 plot!(plt, [t0, tf], [0, 0], c = :black, ls = :dash, label = nothing)
@@ -219,7 +220,7 @@ opt_sol = Optimization.solve(prob, Ipopt.Optimizer())
 
 # Plot
 st = opt_sol.u
-plt_sol = plot(flow_sol, label = "")
+plt_sol = plot(flow_sol, label = "", size = (800, 800))
 plot!(plt_sol, [t0, tf], [st[1], st[1]], subplot = 3, label = "", c = :red)
 plot!(plt_sol, [t0, tf], [st[2], st[2]], subplot = 4, label = "", c = :red)
 plot!(plt_sol, [t0, tf], [st[3], st[3]], subplot = 9, label = "", c = :red)
